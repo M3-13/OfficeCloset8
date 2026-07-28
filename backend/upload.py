@@ -57,7 +57,7 @@ def validate_image(file) -> bool:
     else:
         file_size = 0
 
-    return not (0 < file_size > MAX_FILE_SIZE)
+    return file_size > 0 and file_size <= MAX_FILE_SIZE
 
 
 def save_upload(file, user_id: int) -> str:

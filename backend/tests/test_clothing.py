@@ -164,6 +164,10 @@ class TestValidateImage:
         f = _MockFile(b"\xff\xd8")
         assert validate_image(f) is False
 
+    def test_zero_size(self):
+        f = _MockFile(b"")
+        assert validate_image(f) is False
+
     def test_no_read_method(self):
         assert validate_image("not a file") is False  # pyright: ignore[reportArgumentType]
 
