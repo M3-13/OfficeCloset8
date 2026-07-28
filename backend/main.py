@@ -6,6 +6,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from routers import auth, clothing, outfits
+
 from upload import UPLOAD_DIR
 
 
@@ -35,6 +36,9 @@ app.include_router(outfits.router)
 def health():
     return {"status": "ok"}
 
+
+if UPLOAD_DIR.exists():
+    app.mount("/upload", StaticFiles(directory=str(UPLOAD_DIR)), name="upload")
 
 static_dir = os.environ.get("STATIC_DIR", "../frontend/dist")
 if os.path.isdir(static_dir):

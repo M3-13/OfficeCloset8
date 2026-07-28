@@ -25,7 +25,7 @@
           "dev": "sqlite:///./officecloset.db"
         },
         "UPLOAD_DIR": {
-          "dev": "./upload"
+          "dev": "../upload"
         }
       }
     },

@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, computed_field
 
 
 class UserCreate(BaseModel):
@@ -26,6 +26,11 @@ class ClothingItemResponse(BaseModel):
     user_id: int
 
     model_config = {"from_attributes": True}
+
+    @computed_field
+    @property
+    def image_url(self) -> str:
+        return "/" + self.image_path
 
 
 class OutfitCreate(BaseModel):
