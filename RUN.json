@@ -1,0 +1,46 @@
+{
+  "runcontract": 1,
+  "services": [
+    {
+      "name": "api",
+      "dir": "backend",
+      "stack": "python",
+      "kind": "server",
+      "install": [
+        ["${python}", "-m", "pip", "install", "-q", "-r", "requirements.txt"]
+      ],
+      "start": ["${python}", "-m", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "${PORT}"],
+      "port": 8000,
+      "port_env": "PORT",
+      "health": {
+        "path": "/api/health",
+        "expect_status": [200]
+      },
+      "env": {
+        "SECRET_KEY": {
+          "external": true,
+          "degraded_without": "Authentication endpoints return 503"
+        },
+        "DATABASE_URL": {
+          "dev": "sqlite:///./officecloset.db"
+        },
+        "UPLOAD_DIR": {
+          "dev": "./upload"
+        }
+      }
+    },
+    {
+      "name": "frontend",
+      "dir": "frontend",
+      "stack": "node",
+      "kind": "server",
+      "install": [
+        ["npm", "install"]
+      ],
+      "start": ["npm", "run", "dev", "--", "--port", "${PORT}"],
+      "port": 5173,
+      "port_env": "PORT",
+      "ready_log": "Local:"
+    }
+  ]
+}
