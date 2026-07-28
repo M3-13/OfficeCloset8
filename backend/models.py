@@ -1,5 +1,7 @@
+from datetime import UTC, datetime
+
 from database import Base
-from sqlalchemy import Column, ForeignKey, Integer, String, Table
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Table
 from sqlalchemy.orm import relationship
 
 outfit_items = Table(
@@ -19,6 +21,17 @@ class User(Base):
 
     clothing_items = relationship("ClothingItem", back_populates="owner")
     outfits = relationship("Outfit", back_populates="owner")
+
+
+class Session(Base):
+    __tablename__ = "sessions"
+
+    id = Column(Integer, primary_key=True, index=True)
+    token = Column(String, unique=True, index=True, nullable=False)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    created_at = Column(DateTime, default=lambda: datetime.now(UTC))
+
+    user = relationship("User")
 
 
 class ClothingItem(Base):
