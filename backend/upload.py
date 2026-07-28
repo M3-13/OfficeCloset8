@@ -45,7 +45,10 @@ def validate_image(file: UploadFile) -> bool:
 def strip_exif(path: str) -> None:
     img = Image.open(path)
     clean = Image.new(img.mode, img.size)
-    data = list(img.get_flattened_data())
+    if hasattr(img, "get_flattened_data"):
+        data = list(img.get_flattened_data())
+    else:
+        data = list(img.getdata())
     img.close()
     clean.putdata(data)
     clean.save(path)
