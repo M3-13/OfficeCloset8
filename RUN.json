@@ -17,10 +17,6 @@
         "expect_status": [200]
       },
       "env": {
-        "SECRET_KEY": {
-          "external": true,
-          "degraded_without": "Authentication endpoints return 503"
-        },
         "DATABASE_URL": {
           "dev": "sqlite:///./officecloset.db"
         },

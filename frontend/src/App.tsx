@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
+import { AuthProvider, RequireAuth } from './contexts/AuthContext';
 import Layout from './components/Layout';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -9,16 +10,18 @@ import AccountPage from './pages/AccountPage';
 
 export default function App() {
   return (
-    <Routes>
-      <Route element={<Layout />}>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/wardrobe" element={<WardrobePage />} />
-        <Route path="/outfit-creator" element={<OutfitCreatorPage />} />
-        <Route path="/saved-outfits" element={<SavedOutfitsPage />} />
-        <Route path="/account" element={<AccountPage />} />
-        <Route path="/" element={<LoginPage />} />
-      </Route>
-    </Routes>
+    <AuthProvider>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/wardrobe" element={<RequireAuth><WardrobePage /></RequireAuth>} />
+          <Route path="/outfit-creator" element={<RequireAuth><OutfitCreatorPage /></RequireAuth>} />
+          <Route path="/saved-outfits" element={<RequireAuth><SavedOutfitsPage /></RequireAuth>} />
+          <Route path="/account" element={<RequireAuth><AccountPage /></RequireAuth>} />
+          <Route path="/" element={<LoginPage />} />
+        </Route>
+      </Routes>
+    </AuthProvider>
   );
 }
