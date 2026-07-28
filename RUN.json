@@ -19,9 +19,6 @@
       "env": {
         "DATABASE_URL": {
           "dev": "sqlite:///./officecloset.db"
-        },
-        "UPLOAD_DIR": {
-          "dev": "./upload"
         }
       }
     },
