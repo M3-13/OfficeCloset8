@@ -1,0 +1,11 @@
+.page {
+  padding: var(--space-4) var(--space-4);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: var(--space-3) var(--space-3);
+  }
+}
