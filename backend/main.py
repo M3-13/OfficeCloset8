@@ -1,12 +1,12 @@
 from contextlib import asynccontextmanager
 
+from database import Base, engine
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from routers import auth, clothing, outfits
 
-from .database import Base, engine
-from .routers import auth, clothing, outfits
-from .upload import UPLOAD_DIR
+from upload import UPLOAD_DIR
 
 
 @asynccontextmanager

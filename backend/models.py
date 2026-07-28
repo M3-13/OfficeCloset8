@@ -1,7 +1,6 @@
+from database import Base
 from sqlalchemy import Column, ForeignKey, Integer, String, Table
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-
-from .database import Base
 
 outfit_items = Table(
     "outfit_items",
