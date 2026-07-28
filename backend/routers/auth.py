@@ -11,6 +11,7 @@ from fastapi import APIRouter, Depends, HTTPException, Request, Response
 from models import ClothingItem, Outfit, Session, User, outfit_items
 from schemas import UserCreate, UserResponse
 from sqlalchemy.orm import Session as DBSession
+
 from upload import UPLOAD_DIR
 
 logger = logging.getLogger(__name__)
