@@ -179,7 +179,7 @@ export default function OutfitCreatorPage() {
                         >
                           <div className="item-card-img">
                             <img
-                              src={item.image_path}
+                              src={`/upload/${item.image_path}`}
                               alt={item.name}
                               onError={(e) => {
                                 (e.target as HTMLImageElement).src =

@@ -1,10 +1,4 @@
-export interface ClothingItem {
-  id: number;
-  name: string;
-  category: string;
-  image_path: string;
-  user_id: number;
-}
+import type { ClothingItem } from './types';
 
 async function api(path: string, options?: RequestInit): Promise<Response> {
   const res = await fetch(`/api/clothing${path}`, {
@@ -21,15 +15,21 @@ async function api(path: string, options?: RequestInit): Promise<Response> {
   return res;
 }
 
+export type { ClothingItem };
+
 export async function getItems(): Promise<ClothingItem[]> {
   const res = await api('');
   return res.json();
 }
 
-export async function createItem(_formData: FormData): Promise<never> {
-  throw 'not implemented';
+export async function createItem(formData: FormData): Promise<ClothingItem> {
+  const res = await api('', {
+    method: 'POST',
+    body: formData,
+  });
+  return res.json();
 }
 
-export async function deleteItem(_itemId: number): Promise<never> {
-  throw 'not implemented';
+export async function deleteItem(itemId: number): Promise<void> {
+  await api(`/${itemId}`, { method: 'DELETE' });
 }

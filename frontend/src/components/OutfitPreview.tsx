@@ -22,7 +22,7 @@ export default function OutfitPreview({ items }: OutfitPreviewProps) {
         <div key={item.id} className="outfit-preview-item">
           <div className="outfit-preview-thumb">
             <img
-              src={item.image_path}
+              src={`/upload/${item.image_path}`}
               alt={item.name}
               onError={(e) => {
                 (e.target as HTMLImageElement).src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect fill="%231A1A1A" width="100" height="100"/><text fill="%23A0988C" x="50" y="55" text-anchor="middle" font-size="12">Kein Bild</text></svg>';
