@@ -20,3 +20,4 @@ ignore = [
 
 [lint.per-file-ignores]
 "tests/*" = ["N802", "N803"]   # relax the snake_case rule for test functions
+"backend/routers/*" = ["B008"]  # Depends in defaults is standard FastAPI pattern
