@@ -10,6 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from routers import auth, clothing, outfits
+
 from upload import UPLOAD_DIR
 
 logger = logging.getLogger(__name__)
@@ -63,5 +64,5 @@ static_dir = os.environ.get("STATIC_DIR", "../frontend/dist")
 if os.path.isdir(static_dir):
     app.mount("/", StaticFiles(directory=static_dir, html=True), name="static")
 
-if UPLOAD_DIR.is_dir():
-    app.mount("/uploads", StaticFiles(directory=str(UPLOAD_DIR)), name="uploads")
+UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+app.mount("/uploads", StaticFiles(directory=str(UPLOAD_DIR)), name="uploads")
