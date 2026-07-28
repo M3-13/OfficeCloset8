@@ -59,9 +59,7 @@ def validate_image(
             break
 
     if not detected_magic:
-        raise ValueError(
-            "Datei ist kein gültiges JPEG-, PNG- oder WebP-Bild (Magic Bytes fehlen)"
-        )
+        raise ValueError("Datei ist kein gültiges JPEG-, PNG- oder WebP-Bild (Magic Bytes fehlen)")
 
     return True
 

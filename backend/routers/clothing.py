@@ -89,7 +89,9 @@ async def create_item(
         raise HTTPException(status_code=400, detail=str(e)) from e
 
     try:
-        relative_path = save_upload(file_bytes=contents, filename=image.filename or "image", user_id=user.id)
+        relative_path = save_upload(
+            file_bytes=contents, filename=image.filename or "image", user_id=user.id
+        )
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e)) from e
     except RuntimeError as e:
