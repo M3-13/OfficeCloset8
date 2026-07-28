@@ -1,10 +1,6 @@
-export interface ClothingItem {
-  id: number;
-  name: string;
-  category: string;
-  image_path: string;
-  user_id: number;
-}
+import type { ClothingItem } from './types';
+
+export type { ClothingItem };
 
 export interface Outfit {
   id: number;

@@ -101,7 +101,7 @@ export default function SavedOutfitsPage() {
                   {outfit.items.slice(0, 3).map((item) => (
                     <div key={item.id} className="outfit-card-preview-img">
                       <img
-                        src={item.image_path}
+                        src={`/upload/${item.image_path}`}
                         alt={item.name}
                         onError={(e) => {
                           (e.target as HTMLImageElement).src =
@@ -133,7 +133,7 @@ export default function SavedOutfitsPage() {
                     {outfit.items.map((item) => (
                       <div key={item.id} className="outfit-detail-item">
                         <img
-                          src={item.image_path}
+                          src={`/upload/${item.image_path}`}
                           alt={item.name}
                           onError={(e) => {
                             (e.target as HTMLImageElement).src =

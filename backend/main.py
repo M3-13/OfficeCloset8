@@ -59,6 +59,9 @@ def health():
     return {"status": "ok"}
 
 
+UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+app.mount("/upload", StaticFiles(directory=str(UPLOAD_DIR)), name="upload")
+
 static_dir = os.environ.get("STATIC_DIR", "../frontend/dist")
 if os.path.isdir(static_dir):
     app.mount("/", StaticFiles(directory=static_dir, html=True), name="static")

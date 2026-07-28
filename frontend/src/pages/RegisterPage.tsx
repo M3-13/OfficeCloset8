@@ -1,17 +1,35 @@
-import { type FormEvent, useState } from 'react';
+import { type FormEvent, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/;
 
 export default function RegisterPage() {
-  const { register } = useAuth();
+  const { user, loading, register } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordRepeat, setPasswordRepeat] = useState('');
   const [errors, setErrors] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (!loading && user) {
+      navigate('/wardrobe');
+    }
+  }, [user, loading, navigate]);
+
+  if (loading) {
+    return (
+      <div className="loading-state">
+        <p>Wird geladen...</p>
+      </div>
+    );
+  }
+
+  if (user) {
+    return null;
+  }
 
   function validate(): boolean {
     const errs: string[] = [];
