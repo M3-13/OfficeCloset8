@@ -8,9 +8,32 @@ Ein glamouröser Kleiderschrank-Manager mit Web-GUI im Hollywood-Stil. Benutzer 
 - **Frontend**: React (TypeScript), Vite
 - **Bildspeicherung**: Lokales Dateisystem (upload/)
 
-## Installation
+## How to run
 
-### Backend
+```bash
+cd frontend
+npm install
+npm run build
+```
+
+```bash
+cd backend
+pip install -r requirements.txt
+uvicorn main:app --port 8000
+```
+
+Die Anwendung ist unter `http://localhost:8000` vollständig nutzbar – Frontend und API laufen auf demselben Port.
+
+### Entwicklung
+
+Für die Entwicklung mit Hot Module Replacement:
+
+```bash
+cd frontend
+npm run dev
+```
+
+Das Dev-Frontend läuft unter `http://localhost:5173` und leitet `/api`-Anfragen per Proxy ans Backend (`http://localhost:8000`) weiter.
 
 ```bash
 cd backend
@@ -18,17 +41,7 @@ pip install -r requirements.txt
 uvicorn main:app --reload
 ```
 
-Der Server startet unter `http://localhost:8000`.
-
-### Frontend
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-Das Frontend läuft unter `http://localhost:5173`.
+Der API-Server startet unter `http://localhost:8000`.
 
 ## API-Endpunkte
 

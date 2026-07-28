@@ -29,14 +29,11 @@
       "name": "frontend",
       "dir": "frontend",
       "stack": "node",
-      "kind": "server",
+      "kind": "cli",
       "install": [
-        ["npm", "install"]
+        ["npm", "ci"]
       ],
-      "start": ["npm", "run", "dev", "--", "--port", "${PORT}"],
-      "port": 5173,
-      "port_env": "PORT",
-      "ready_log": "Local:"
+      "start": ["npm", "run", "build"]
     }
   ]
 }
