@@ -1,14 +1,17 @@
 import logging
+import os
 import re
+from contextlib import suppress
 from typing import Annotated
 
 from auth import COOKIE_NAME, get_current_user, hash_password, verify_password
 from auth import create_session as auth_create_session
 from database import get_db
 from fastapi import APIRouter, Depends, HTTPException, Request, Response
-from models import Session, User
+from models import ClothingItem, Outfit, Session, User, outfit_items
 from schemas import UserCreate, UserResponse
 from sqlalchemy.orm import Session as DBSession
+from upload import UPLOAD_DIR
 
 logger = logging.getLogger(__name__)
 
@@ -80,6 +83,49 @@ def logout(
         db.commit()
     response.delete_cookie(key=COOKIE_NAME, httponly=True, secure=True, samesite="lax")
     return {"message": "Logged out"}
+
+
+@router.delete("/account", status_code=200)
+def delete_account(
+    request: Request,
+    response: Response,
+    current_user: Annotated[User, Depends(get_current_user)],
+    db: Annotated[DBSession, Depends(get_db)],
+):
+    user_id = current_user.id
+
+    clothing_items = db.query(ClothingItem).filter(ClothingItem.user_id == user_id).all()
+    image_paths = [item.image_path for item in clothing_items]
+
+    try:
+        user_outfits = db.query(Outfit).filter(Outfit.user_id == user_id).all()
+        for outfit in user_outfits:
+            db.execute(outfit_items.delete().where(outfit_items.c.outfit_id == outfit.id))
+
+        db.query(Outfit).filter(Outfit.user_id == user_id).delete()
+        db.query(ClothingItem).filter(ClothingItem.user_id == user_id).delete()
+        db.query(Session).filter(Session.user_id == user_id).delete()
+        db.query(User).filter(User.id == user_id).delete()
+
+        db.commit()
+    except Exception:
+        db.rollback()
+        raise HTTPException(status_code=500, detail="Fehler beim Löschen des Kontos") from None
+
+    for path in image_paths:
+        full_path = UPLOAD_DIR / path if not os.path.isabs(path) else path
+        with suppress(FileNotFoundError, OSError):
+            os.remove(full_path)
+
+    token = request.cookies.get(COOKIE_NAME)
+    if token:
+        db.query(Session).filter(Session.token == token).delete()
+        db.commit()
+
+    response.delete_cookie(key=COOKIE_NAME, httponly=True, secure=True, samesite="lax")
+
+    logger.info("User %d deleted their account", user_id)
+    return {"message": "Konto gelöscht"}
 
 
 @router.get("/me", response_model=UserResponse)

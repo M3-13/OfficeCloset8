@@ -51,4 +51,12 @@ export async function getMe(): Promise<User | null> {
   return handleResponse<User>(resp);
 }
 
+export async function deleteAccount(): Promise<{ message: string }> {
+  const resp = await fetch(`${BASE}/account`, {
+    method: 'DELETE',
+    credentials: 'include',
+  });
+  return handleResponse<{ message: string }>(resp);
+}
+
 

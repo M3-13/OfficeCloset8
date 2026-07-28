@@ -39,7 +39,7 @@ Das Frontend läuft unter `http://localhost:5173`.
 | POST | `/api/auth/login` | Login |
 | POST | `/api/auth/logout` | Logout |
 | GET | `/api/auth/me` | Aktueller Benutzer |
-| DELETE | `/api/auth/me` | Konto löschen |
+| DELETE | `/api/auth/account` | Konto löschen |
 | GET | `/api/clothing` | Alle Kleidungsstücke |
 | POST | `/api/clothing` | Kleidungsstück anlegen |
 | DELETE | `/api/clothing/{id}` | Kleidungsstück löschen |
