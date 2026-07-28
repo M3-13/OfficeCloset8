@@ -62,3 +62,6 @@ def health():
 static_dir = os.environ.get("STATIC_DIR", "../frontend/dist")
 if os.path.isdir(static_dir):
     app.mount("/", StaticFiles(directory=static_dir, html=True), name="static")
+
+if UPLOAD_DIR.is_dir():
+    app.mount("/uploads", StaticFiles(directory=str(UPLOAD_DIR)), name="uploads")
