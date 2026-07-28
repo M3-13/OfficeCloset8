@@ -65,7 +65,7 @@ if static_dir.is_dir():
     assets_dir = static_dir / "assets"
     if assets_dir.is_dir():
         app.mount("/assets", StaticFiles(directory=str(assets_dir)), name="assets")
-    app.mount("/", StaticFiles(directory=str(static_dir), html=True), name="frontend")
+    app.mount("/", StaticFiles(directory=str(static_dir)), name="frontend")
 
     @app.middleware("http")
     async def spa_fallback(request: Request, call_next):
