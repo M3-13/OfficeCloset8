@@ -1,13 +1,14 @@
 import logging
 import os
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 from database import Base, engine
 from fastapi import FastAPI, Request
 from fastapi.exception_handlers import http_exception_handler
 from fastapi.exceptions import HTTPException as FastAPIHTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from routers import auth, clothing, outfits
 from upload import UPLOAD_DIR
@@ -59,6 +60,18 @@ def health():
     return {"status": "ok"}
 
 
-static_dir = os.environ.get("STATIC_DIR", "../frontend/dist")
-if os.path.isdir(static_dir):
-    app.mount("/", StaticFiles(directory=static_dir, html=True), name="static")
+static_dir = Path(__file__).parent / "static"
+if static_dir.is_dir():
+    assets_dir = static_dir / "assets"
+    if assets_dir.is_dir():
+        app.mount("/assets", StaticFiles(directory=str(assets_dir)), name="assets")
+    app.mount("/", StaticFiles(directory=str(static_dir), html=True), name="frontend")
+
+    @app.middleware("http")
+    async def spa_fallback(request: Request, call_next):
+        response = await call_next(request)
+        if response.status_code == 404 and not request.url.path.startswith("/api"):
+            index = static_dir / "index.html"
+            if index.is_file():
+                return FileResponse(str(index))
+        return response
